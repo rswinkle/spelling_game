@@ -22,7 +22,7 @@ solution "Spelling_Game"
          defines { "NDEBUG" }
          flags { "Optimize" }
  
-      configuration { "linux", "gmake" }
+      configuration { "gmake" }
          buildoptions {
          "-std=c99", "-pedantic-errors", "-fno-strict-aliasing",
          "-Wunused-variable", "-Wreturn-type" 
