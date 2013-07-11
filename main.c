@@ -54,24 +54,22 @@ int main(int argc, char** argv)
 	srand(time(NULL));
 	while (1) {                    //main game loop
 		puts(CLEAR_SCREEN);
-		n_chars = rand() % 3 + 2;
 		int first_match, last_match, initial;
 
-		while (1) {                //find an adequate prefix and the range of matches
-			memset(prefix_buf, 0, sizeof(prefix_buf));
-			for (int i=0; i<n_chars; ++i) {
-				prefix_buf[i] = 'a' + rand() % 26;
-			}
-			prefix_buf[n_chars] = 0;
-			printf("trying %s\n", prefix_buf);
-			
-			char** find_result = NULL;
-			if (find_result = bsearch(&prefix, wordlist.a, wordlist.size, sizeof(char*), compare_str_funcs[n_chars-1])) {
-				initial = (find_result - wordlist.a);
-				find_match_range(&wordlist, n_chars, prefix, initial, &first_match, &last_match);	
-				break;
-			}
+		initial = rand() % wordlist.size; //check wordlist.size < RAND_MAX
+		n_chars = rand() % 3 + 2;
+		while (strlen(wordlist.a[initial]) < n_chars) {
+			printf("trying %s\n", wordlist.a[initial++]);
+			if (initial >= wordlist.size)
+				initial = rand() % wordlist.size; //check wordlist.size < RAND_MAX
 		}
+
+		memset(prefix_buf, 0, sizeof(prefix_buf));
+		for (int i=0; i<n_chars; ++i) {
+			prefix_buf[i] = wordlist.a[initial][i];
+		}
+
+		find_match_range(&wordlist, n_chars, prefix, initial, &first_match, &last_match);
 
 		int bad_tries = 0;
 		c_array correct_c_array;
