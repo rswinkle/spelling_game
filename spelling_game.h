@@ -64,26 +64,6 @@ int is_good_word(char* word)
 
 }
 
-
-void* mybsearch(const void *key, const void *buf, size_t num, size_t size, int (*compare)(const void *, const void *))
-{
-	size_t min = 0, max = num-1;
-	size_t cursor;
-
-	while (min <= max) {
-		cursor = min + ((max - min) / 2);
-		int ret = compare(&key, (const char*)buf+cursor*size);
-		if (!ret) {
-			return (char*)buf + cursor*size;
-		} else if (ret < 0) {
-			max = cursor - 1;  //overflow possibilities here and below
-		} else {
-			min = cursor + 1;
-		}
-	}
-	return NULL;
-}
-
 void find_match_range(vector_str* wordlist, int n_chars, char* prefix, int n, int* first, int* last)
 {
 	int initial = n;
