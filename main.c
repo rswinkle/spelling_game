@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "linenoise.h"
+
 #include "spelling_game.h"
 #include "c_utils.h"
 
@@ -14,7 +16,12 @@ int main(int argc, char** argv)
 	char delims[] = "\n";
 	c_array file_contents;
 
-	if (!file_open_read("mywordlist.txt", "r", &file_contents)) {
+	if (argc != 2) {
+		printf("Usage: %s wordlist\n", argv[0]);
+		return 0;
+	}
+
+	if (!file_open_read(argv[1], "r", &file_contents)) {
 		perror("Could not open file name given");
 		return 0;
 	}
@@ -24,12 +31,12 @@ int main(int argc, char** argv)
 		perror(NULL);
 		return 0;
 	}
-	
+
 	char* result = strtok((char*)file_contents.data, delims);
 	while (result != NULL) {
 		if (is_good_word(result))
 			push_str(&wordlist, result);
-	
+
 		result = strtok(NULL, delims);
 	}
 
@@ -39,7 +46,7 @@ int main(int argc, char** argv)
 
 	char prefix_buf[10];
 	char entry_buf[300];
-	char* prefix = prefix_buf;	
+	char* prefix = prefix_buf;
 	int n_chars;
 	char* suffix_entry = NULL;
 	vector_i correct_guesses;
@@ -78,15 +85,11 @@ int main(int argc, char** argv)
 				}
 				puts("\n");
 				printf("Score: %d\t Bad Guesses: %d\n", total_score, bad_tries);
-				printf("Enter \"q!\" to quit\n");
+				printf("Enter EOF (CTRL+D on unix) to quit. CTRL-C (abort) also works.\n");
 				printf("Finish as many words as you can that start with the prefix \"%s\"\n", prefix_buf);
-				printf("%s\n", prefix_buf);
-				suffix_entry = freadline(stdin);
-				if (!strncmp("q!", suffix_entry, 2)) {
-					free(suffix_entry);
+				if (!(suffix_entry = linenoise(prefix_buf)))
 					goto exit;
-				}
-						
+
 				int len = snprintf(entry_buf, 300, "%s%s", prefix_buf, suffix_entry);
 				if (len > 299) {
 					puts("Error, your entry was too long\n");
@@ -94,7 +97,6 @@ int main(int argc, char** argv)
 					free(suffix_entry);
 					continue;
 				}
-				printf("full word: %s\n", entry_buf);
 				for (i=first_match; i<=last_match; ++i) {
 					SET_C_ARRAY(correct_c_array, (byte*)correct_guesses.a, sizeof(int), correct_guesses.size);
 
@@ -122,7 +124,7 @@ int main(int argc, char** argv)
 				getchar();
 				free(suffix_entry);
 			}
-			
+
 			int num_alternatives = 3;
 			if (bad_tries == 3) {
 				for (i=first_match; i<=last_match && num_alternatives; ++i) {
@@ -142,7 +144,7 @@ int main(int argc, char** argv)
 				break;
 			}
 			prefix_buf[n_chars] = 0;
-			find_match_range(&wordlist, n_chars, prefix, initial, &first_match, &last_match); 
+			find_match_range(&wordlist, n_chars, prefix, initial, &first_match, &last_match);
 			bad_tries = 0;
 		}
 	}  //end main game loop
