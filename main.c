@@ -14,12 +14,7 @@ int main(int argc, char** argv)
 	char delims[] = "\n";
 	c_array file_contents;
 
-	if (argc != 2) {
-		printf("Usage: %s wordlist\n", argv[0]);
-		return 0;
-	}
-
-	if (!file_open_read(argv[1], "r", &file_contents)) {
+	if (!file_open_read("mywordlist.txt", "r", &file_contents)) {
 		perror("Could not open file name given");
 		return 0;
 	}
@@ -85,7 +80,7 @@ int main(int argc, char** argv)
 				printf("Score: %d\t Bad Guesses: %d\n", total_score, bad_tries);
 				printf("Enter \"q!\" to quit\n");
 				printf("Finish as many words as you can that start with the prefix \"%s\"\n", prefix_buf);
-				printf("%s", prefix_buf);
+				printf("%s\n", prefix_buf);
 				suffix_entry = freadline(stdin);
 				if (!strncmp("q!", suffix_entry, 2)) {
 					free(suffix_entry);
