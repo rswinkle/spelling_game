@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 	}
 
 	vector_str wordlist;
-	if (!vec_str(&wordlist, 0, 100000)) {
+	if (!cvec_str(&wordlist, 0, 100000)) {
 		perror(NULL);
 		return 0;
 	}
@@ -35,7 +35,7 @@ int main(int argc, char** argv)
 	char* result = strtok((char*)file_contents.data, delims);
 	while (result != NULL) {
 		if (is_good_word(result))
-			push_str(&wordlist, result);
+			cvec_push_str(&wordlist, result);
 
 		result = strtok(NULL, delims);
 	}
@@ -50,7 +50,7 @@ int main(int argc, char** argv)
 	int n_chars;
 	char* suffix_entry = NULL;
 	vector_i correct_guesses;
-	vec_i(&correct_guesses, 0, 20);
+	cvec_i(&correct_guesses, 0, 20);
 	int i, total_score = 0;
 
 	srand(time(NULL));
@@ -111,7 +111,7 @@ int main(int argc, char** argv)
 
 					if (!strcmp(entry_buf, wordlist.a[i])) {
 						printf("Good answer\n");
-						push_i(&correct_guesses, i);
+						cvec_push_i(&correct_guesses, i);
 						++total_score;
 						break;
 					}
@@ -150,8 +150,8 @@ int main(int argc, char** argv)
 	}  //end main game loop
 
 exit:
-	free_vec_i(&correct_guesses);
-	free_vec_str(&wordlist);
+	cvec_free_i(&correct_guesses);
+	cvec_free_str(&wordlist);
 
 	return 0;
 }
