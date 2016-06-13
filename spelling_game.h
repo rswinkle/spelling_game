@@ -64,7 +64,7 @@ int is_good_word(char* word)
 
 }
 
-void find_match_range(vector_str* wordlist, int n_chars, char* prefix, int n, int* first, int* last)
+void find_match_range(cvector_str* wordlist, int n_chars, char* prefix, int n, int* first, int* last)
 {
 	int initial = n;
 	while (n >= 0) {

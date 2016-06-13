@@ -26,7 +26,7 @@ int main(int argc, char** argv)
 		return 0;
 	}
 
-	vector_str wordlist;
+	cvector_str wordlist;
 	if (!cvec_str(&wordlist, 0, 100000)) {
 		perror(NULL);
 		return 0;
@@ -49,7 +49,7 @@ int main(int argc, char** argv)
 	char* prefix = prefix_buf;
 	int n_chars;
 	char* suffix_entry = NULL;
-	vector_i correct_guesses;
+	cvector_i correct_guesses;
 	cvec_i(&correct_guesses, 0, 20);
 	int i, total_score = 0;
 
