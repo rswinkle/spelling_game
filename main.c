@@ -7,6 +7,8 @@
 #include "spelling_game.h"
 #include "c_utils.h"
 
+#define CVEC_ONLY_STR
+#define CVEC_ONLY_INT
 #define CVECTOR_IMPLEMENTATION
 #include "cvector.h"
 
