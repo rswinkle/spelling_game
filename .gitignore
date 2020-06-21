@@ -9,4 +9,6 @@ Makefile
 cmake_install.cmake
 stats/*
 build/*
+!build/Makefile
+!build/spelling_game.make
 *.swp
