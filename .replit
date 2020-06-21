@@ -1,0 +1,2 @@
+language = "c"
+run = "cd build && make && ./spelling_game ../words_alpha.txt"

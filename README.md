@@ -1,6 +1,8 @@
 Spelling Game
 =============
 
+[![Run on Repl.it](https://repl.it/badge/github/rswinkle/spelling_game)](https://repl.it/github/rswinkle/spelling_game)
+
 The game is an endless loop that does the following
 
 Given a 2-4 letter prefix that has words in the provided wordlist, try to finish those words.
@@ -20,7 +22,8 @@ If you're on a system that supports Make you can use the included Makefile
     ...
     ./spelling_game ../ospd.txt
 
-If you want to regenerate the Makefile or another build system you can use premake
+If you want to regenerate the Makefile or another build system you can use either premake4
+or premake5
 
     premake5 gmake
     cd build
